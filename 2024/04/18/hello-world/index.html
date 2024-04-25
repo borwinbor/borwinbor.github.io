@@ -8,7 +8,7 @@
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="icon" href="/images/%E5%AE%AB%E5%9B%AD%E7%86%8F.jpg" />
     <link rel="preconnect" href="https://s4.zstatic.net" />
 <script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
 <link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
@@ -32,6 +32,9 @@
 
 <script src="/js/lib/preview.js"></script>
 
+
+<script src="https://s4.zstatic.net/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+<script src="/js/lib/crypto.js"></script>
 
 
 
@@ -160,26 +163,45 @@
             2024/4/18
         </span>
         
+        <span class="category">
+            <a href="/categories/%E7%A7%81%E5%AF%86/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                私密
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%97%A5%E8%AE%B0/" style="color: #ff7d73">日记</a>
+            </span>
+            
+        </span>
         
     </div>
     
-    <div class="content" v-pre>
-        <h2 id="2024-4-24"><a href="#2024-4-24" class="headerlink" title="2024&#x2F;4&#x2F;24"></a>2024&#x2F;4&#x2F;24</h2><hr>
-<pre><code>简单回顾一下今天，在学习上：
-
-首先是课堂上的物理小测发现自己的基础根本不牢固，看来在大物这一块还需要多用点心。 
-其次，还是要反思一下应对小测的方式，虽说多人一起对完答案能够保障一定的正确率，但是这在某种程度上影响了你的发挥，在心态上有一种浮躁与依赖，所以下次小测争取一个人坐并独立完成。 
-然后就是离散数学课程已经结束，在这门课的进行过程中，你并没有足够的用心，而离散期末在5月22号，在接下来这段时间里你要有规划地进行复习。 
-还有就是这星期六晚上的物理实验考试，只剩几天时间，你在这几天要暂时把物理实验放在首位。 
-
-今天完成的学业任务：数据结构实验第二章、离散数学图论部分结课（掌握并不牢固）、大物力学部分以前回顾。
-今天坚持下来的计划：每天的3km
-
-总结：学习投入度还不够，对手机的使用时间还需减少，3km继续坚持！
-</code></pre>
-<hr>
-
-    </div>
+    
+    <input
+        id="crypto"
+        :class="['input', cryptoStatus]"
+        :disabled="cryptoStatus === 'success'"
+        ref="crypto"
+        placeholder="文章被加密，请输入密码"
+        data-encrypted="U2FsdGVkX1/CysUqXRQYlnnQ7FDFogVl36uZvE60gw/mDAKT86ss2mQDfinTdtJAHqpDCV4YHk6TRLgPbySTDoN6Lyt3ZwV5XKJOmvdrheqjhFtEXTMgmsN2Ul0UgXDciUEvu6xABnBIQkkvR7Di2t0EOHRKRH+JaGunPoSGkNoUBhXj0kICjy5CnUiyhEfrhb17MY5j/bTYXVQBydxvndzz/4OuWqCKK19vbvBuSgRBFvz+Kw8Jk4FXbMEsYU2dWKRWZrjQ9D+MfPhje9V0Ib99tC5peizZF9SeQMABA1xO2JZg1BDlb393EMDvcRQQylN5tXZiM48+ljkjoV6/apx5YoeyOfG9PUmR7HMci0lF60xkuJmbWUtdc0f753T2WkNWzmEp9C2vq2uqd11A6KLN0jCB4VORORspXyTw8sO/bQ//FU9zh+7zSdXfgbbxK+JTOFLyUaqPQMf+kunrdd/B5NEWBZ/Ky7c0+TVW6wwFMJ7l6hL9WbSO4Eho0zylxgzRfIAB6yZ6U+F/YDv0leb8tbxdLRqooJjgs/bUv9wCPQDrROQ822d50msYV8RVym65WdmXolHnZl2n87TpvI6b+yZSq3clwX8sbOqvZIGxu0yoER394rH11MuLmvstYWubO2muTUZX0Lbhf0kmgcxb6qGTcLFcoGX/Yocbakijx96a6ffJEDngS5+uQz5gv69dW0VT2hQR9rxp3hIl1ec13PDN1Fafzm7nN4LMgaYi+ZaetnZp67r5Asq1o5UzWVg6V4D6Q9PMdVa2+HNzdKJNIHb9K0KRNUSK5kqiZH012mCLaPfJukWXHQVD2FtIvjFRzsjJXElUCuqMRTsFozGev1UmtG1Fd/pswzzcknoqD4+d809ZV8s3h3X6Z2dsyI18TVWPQKTp/lGWZERjZVlyl5RUzDEYil+0gl2n25EAaV5RqPkwRfpfIzW6P8fHEkyMKWrdkPVQGTNU6GZFZgYTD+xSvm+IVVFhQgXdAc5h9YWu6WIAfB9HkKn/3sfcZgUBsF3KDFMbrKX6fOGgWRh6jxBO0PwIDiU7aULqGILp6Dw2slgyl009mBTYVpXbY/tQNibptQMsCFUjj2Wqf1Voyz4ugLHk05wkSceadGXIL1Tby4Q1004c3gaTrNY6Ojfv5BRbdrOx2tKESTp62P7Fa2iuM+nTMVx/6Nh39N36qwv1ao6i3+tG6CiAhxyhtnhxbZtIcoZRqbHCYPgR+WRNoQc7xOqvxZsAkdF3D9saVX7r3enlxar7x0fGm+7G2oASO74bEUJLPhP6fTIsrM4zI59wNp+BmOojC4iD9WKgFvFpgOetSLYC5bbov3q2ahoD0GzpWk2q26k7Gvt+t45vtVitIKicweG96wMYQ5gEelnt0Q8iPYOPiDUg3fYL0r101K7MPyfx8RWpsxSQZAiYzP3sR9D0TkdzJ0VLbsZaSAjicol5m78mkxJArjF1cpAPPgQ6UMOg1E6+vRdadgkGIpBv16gdGDllfXRqNzI9cfXa7HCqZq8shRQAwcyam/WOO4Jc8YQhXCVPrncLu1Q4P2OH08HFYoz8vB4xlB0F2lQDgZ7iln46gc0Ww5zUxjvOlO1YzHtB+12ezv653TbAMq5PKLqRwHsGT025IjtddcAbXmzIqlrdyYu08m/wSlsATo/LxL08/el4fyZ3M6XDMfRhP2m0GFQSyt0Odag="
+        data-shasum="f2564bf43620b6d6f19932df03eb004953464bf93326c00cb9bfa5194327b32c"
+        v-model="crypto"
+    />
+    <transition name="fade">
+        <div class="content" ref="content" v-show="cryptoStatus === 'success'"></div>
+    </transition>
     
     
     
