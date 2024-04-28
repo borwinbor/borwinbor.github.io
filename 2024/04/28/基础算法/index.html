@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Archives | Borwin的小窝</title>
+    <title>基础算法 | Borwin的小窝</title>
     <meta name="author" content="Borwin" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -39,7 +39,9 @@
 
 
 
-<script src="/js/lib/search.js"></script>
+
+
+
 
 
 
@@ -151,86 +153,142 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>基础算法</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/4/28
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E5%AD%A6%E4%B9%A0/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                学习
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
             
-<div id="archives">
-    
-    <input id="search-bar" class="input" placeholder="搜索" v-model="rawSearch" />
-    
-    <div id="timeline-wrap" ref="timeline">
-        
-        <div class="timeline" data-title="一些日常的碎碎念">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2024/4/18</div>
-                <a href="/2024/04/18/hello-world/">
-                    <h3>一些日常的碎碎念</h3>
-                </a>
-                <div class="info">
-                    
-                    <span class="category">
-                        <a href="/categories/%E7%A7%81%E5%AF%86/">
-                            <span class="icon">
-                                <i class="fa-solid fa-bookmark fa-fw"></i>
-                            </span>
-                            私密
-                        </a>
-                    </span>
-                    
-                    
-                    <span class="tags">
-                        <span class="icon">
-                            <i class="fa-solid fa-tags fa-fw"></i>
-                        </span>
-                        
-                        
-                        <span class="tag">
-                            
-                            <a href="/tags/%E6%97%A5%E8%AE%B0/" style="color: #03a9f4">日记</a>
-                        </span>
-                        
-                    </span>
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="基础算法">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2024/4/28</div>
-                <a href="/2024/04/28/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/">
-                    <h3>基础算法</h3>
-                </a>
-                <div class="info">
-                    
-                    <span class="category">
-                        <a href="/categories/%E5%AD%A6%E4%B9%A0/">
-                            <span class="icon">
-                                <i class="fa-solid fa-bookmark fa-fw"></i>
-                            </span>
-                            学习
-                        </a>
-                    </span>
-                    
-                    
-                    <span class="tags">
-                        <span class="icon">
-                            <i class="fa-solid fa-tags fa-fw"></i>
-                        </span>
-                        
-                        
-                        <span class="tag">
-                            
-                            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #ffa2c4">算法</a>
-                        </span>
-                        
-                    </span>
-                    
-                </div>
-            </div>
-        </div>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #ffa2c4">算法</a>
+            </span>
+            
+        </span>
         
     </div>
+    
+    <div class="content" v-pre>
+        <h2 id="快排"><a href="#快排" class="headerlink" title="快排"></a>快排</h2><p>时间复杂度为O(nlogn)</p>
+<p>算法概述：快排排序算法的核心是分治算法，往细一点讲就是：指定一个中间值，对序列进行划分，左部分全部小于该中间值，右部分全部大于中间值</p>
+<p>之后再对所划分成的两个部分再进行划分（递归处理），最后达成排序的效果。</p>
+<pre><code class="cpp">void quick_sort(int a[],int l,int r)
+&#123;
+    if(l&gt;=r) return;
+
+    int mid=a[l+r&gt;&gt;1],le=l-1,re=r+1;
+    
+    while(le&lt;re)
+    &#123;
+        do le++; while(a[le]&lt;mid);
+        do ri--; while(a[ri]&gt;mid);
+        if(le&lt;ri)swap(a[le],a[ri]);
+    &#125;
+    
+    quick_sort(l,re);
+    quick_sort(re+1,r);
+&#125;
+</code></pre>
+<p>可能会有人对以下递归中的参数有所疑问</p>
+<blockquote>
+<p>   quick_sort(l,re);<br>   quick_sort(re+1,r);</p>
+</blockquote>
+<p>re指向的是从右到左的第一个小于mid的数，相当于要对从l到re进行排序，从re+1到r进行排序,这样解释是不是容易懂一些了呢？</p>
+<hr>
+<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p>时间复杂度:O(nlogn)</p>
+<p>分治的思想，及将序列分成两个部分，将这两个部分分别排序,之后合并为一个序列。</p>
+<pre><code class="cpp">void merge_sort(int a[],l,r)
+&#123;
+    if(l&gt;=r)return;//递归结束条件
+    
+    int mid=l+r&gt;&gt;1,le=l,ri=mid+1;
+    
+    merge_sort(a,l,mid);merge_sort(a,mid+1,r);//分别排序
+    
+    vector&lt;int&gt;c;//用于暂存合并后的排序好的数组
+    
+    while(le&lt;ri)//合并数组
+        if(a[le]&lt;=a[ri])c.push_back(a[le++]);
+        else c.push_back(a[ri++]);
+    
+    //可能会出现一边没有填入vector完的情况
+    while(le&lt;=mid)c.push_back(a[le++]);
+    while(ri&lt;=r)c.push_back(a[ri++]);
+    
+    //将暂存的数据填入原来的数组中
+    for(int i=l,k=0;i&lt;=r;i++,k++)a[i]=c[k];
+&#125;
+</code></pre>
+<p>其实在算法题中直接调用sort函数就行了(在数组比较短的时候是插入排序，数组比较长的时候是快排)，了解以上两种排序算法其实是加深对分治的理解，除了这几种排序算法外还有冒泡排序、选择排序等算法。</p>
+<p>排序算法能够做到的最好的时间复杂度就是O(nlogn)了。</p>
+<hr>
+<h2 id="二分"><a href="#二分" class="headerlink" title="二分"></a>二分</h2><p>此模板不用考虑mid+1或mid-1的情况,比Y总的模板好用qwq</p>
+<pre><code class="cpp">int l=-1,r=n;//n为数组长度,数组从0开始存储时这样初始化
+while(l+1!=r)
+&#123;
+    if(check())l=mid;
+    else r=mid;
+&#125;//最后根据实际情况选取l或者r作为结果
+</code></pre>
+<h4 id="下面详细讲一下这串代码"><a href="#下面详细讲一下这串代码" class="headerlink" title="下面详细讲一下这串代码:"></a>下面详细讲一下这串代码:</h4><h5 id="为什么L的初始值为-1，R的初始值为N"><a href="#为什么L的初始值为-1，R的初始值为N" class="headerlink" title="为什么L的初始值为-1，R的初始值为N?"></a>为什么L的初始值为-1，R的初始值为N?</h5><p>这样赋值可以保证数组不会越界</p>
+<h5 id="为什么循环结束的条件是while-L-1-R"><a href="#为什么循环结束的条件是while-L-1-R" class="headerlink" title="为什么循环结束的条件是while(L+1!&#x3D;R)?"></a>为什么循环结束的条件是while(L+1!&#x3D;R)?</h5><p>之前学过二分的小伙伴可能会发现，之前学的二分，他循环结束的条件是while(L&lt;R)</p>
+<p>而这边给出的循环条件是while(L+1!&#x3D;R) 其实，就是当L和R相邻的时候，循环就结束，而原本的while(L&lt;R)</p>
+<p>是当两区间重合以后，循环才结束，所以之前我们需要判断对mid进行加一或者减一的操作，而且因为区间重合的问题，最后返回的L、R还要再进行判断，而这边的这个二分，因为区间反回的是不重合的两区间，只有L&#x3D;mid和R&#x3D;mid这两种情况，最后根据需要返回L或者R；</p>
+<h5 id="为什么不会陷入死循环"><a href="#为什么不会陷入死循环" class="headerlink" title="为什么不会陷入死循环?"></a>为什么不会陷入死循环?</h5><p>对于比较奇葩的情况，比如数组大小为1或者2</p>
+<p>比如int a[1],b[2];</p>
+<p>由于我们是while(L+1!&#x3D;R)结束循环，也就是当L和R相邻的时候结束条件</p>
+<p>对于a[1],他的下标为0 此时L&#x3D;-1，R&#x3D;n也就是1</p>
+<p>对于b[2],他的下标为0,1 此时L&#x3D;-1，R&#x3D;n也就是2</p>
+<p>所以无论何种情况，初始的L+1始终小于R，历经循环后最终L和R相邻，不会出现一开始L就和R重合等情况导致出现while(L+1!&#x3D;R)循环不能结束的情况</p>
+<hr>
+<h2 id="前缀和"><a href="#前缀和" class="headerlink" title="前缀和"></a>前缀和</h2><p>前缀和算法适用于要经常取出数组中某一段的和的时候，能够将O(n)的取和操作优化为O(1)<br>就像它的名字一样，前缀和就是从数组开头一直到某个序号处的所有元素的和。</p>
+<pre><code class="cpp">//假如有数组a[n+1],元素个数为n,从a[1]开始记录数据
+int head_sum[n];
+head_sum[0]=0;
+for(int i=1;i&lt;=n;i++)head_sum[i]=head_sum[i-1]+a[i];
+</code></pre>
+<hr>
+<h2 id="差分"><a href="#差分" class="headerlink" title="差分"></a>差分</h2><p>差分数组可以说是取前缀的逆运算，差分数组的前缀和数组为原数组，差分用于对某一段连续的区间进行加减操作</p>
+<pre><code class="cpp">int sub[n];
+sub[0]=0;
+for(int i=1;i&lt;=n;i++)sub[i]=a[i]-a[i-1];
+</code></pre>
+<hr>
+<h2 id="双指针"><a href="#双指针" class="headerlink" title="双指针"></a>双指针</h2>
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
 </div>
 
             <footer id="footer">
@@ -261,6 +319,29 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="borwinbor/borwinbor.github.io"
+    data-repo-id="R_kgDOLv7ijw"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOLv7ij84Ce2L2"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
     
     <script src="/js/<file>"></script>
     <link rel="stylesheet" href="/css/<file>" />
