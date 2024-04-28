@@ -183,7 +183,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #ffa2c4">算法</a>
+                <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #00a596">算法</a>
             </span>
             
         </span>
@@ -212,9 +212,7 @@
 &#125;
 </code></pre>
 <p>可能会有人对以下递归中的参数有所疑问</p>
-<blockquote>
-<p>   quick_sort(l,re);<br>   quick_sort(re+1,r);</p>
-</blockquote>
+<p><code>quick_sort(l,re); quick_sort(re+1,r);</code></p>
 <p>re指向的是从右到左的第一个小于mid的数，相当于要对从l到re进行排序，从re+1到r进行排序,这样解释是不是容易懂一些了呢？</p>
 <hr>
 <h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p>时间复杂度:O(nlogn)</p>
@@ -276,7 +274,30 @@ sub[0]=0;
 for(int i=1;i&lt;=n;i++)sub[i]=a[i]-a[i-1];
 </code></pre>
 <hr>
-<h2 id="双指针"><a href="#双指针" class="headerlink" title="双指针"></a>双指针</h2>
+<h2 id="双指针"><a href="#双指针" class="headerlink" title="双指针"></a>双指针</h2><p>双指针在多数情况下为左右指针与快慢指针的应用，当然也有一些情况需要灵活运用，下面举两个具体的例子，分别是左右指针与快慢指针的。</p>
+<h4 id="左右指针"><a href="#左右指针" class="headerlink" title="左右指针"></a>左右指针</h4><p>题目:输入一个递增排序的数组和一个数字s，在数组中查找两个数，使得它们的和正好是s。如果有多对数字的和等于s，则输出任意一对即可。</p>
+<p>显然，这题用暴力做法的时间复杂度为O(n^2),但是如果我们用双指针就大不一样了(O(n))，见如下代码：</p>
+<pre><code class="cpp">//假定一定存在这样的一对数的和为s,假设我们已知数组的长度为n,且从1开始存储数据
+int l=1,r=n,res=0;
+while(l&lt;r)
+&#123;
+    while(a[l]+a[r]&gt;s &amp;&amp; l&lt;r)r--;
+    if(a[l]+a[r]==s)
+    &#123;
+        printf(&quot;%d %d&quot;,a[l],a[r]);
+        break;
+    &#125;
+    l++;
+&#125;
+</code></pre>
+<p>解释一下上面的代码中的为什么可以直接<code>l++;</code>,而不用重置r:</p>
+<p>当右指针扫描至a[l]+a[r]&lt;s的位置时,满足a[l]+a[s+1]&gt;s,这时将l指针向右移动,由于a[l+1]&gt;a[l],所以此时a[l]+a[r+1]&gt;s,所以r保持不变，继续向前遍历是合理的。</p>
+<h4 id="快慢指针"><a href="#快慢指针" class="headerlink" title="快慢指针"></a>快慢指针</h4><p>举个简单的例子：输出链表中间位置的值.</p>
+<p>何为快指针？何为慢指针？简单一点理解，走的快的为快指针，走的慢的为满指针。</p>
+<p>例如在这题中，我们将快指针与慢指针都初始化为头指针，然后画快指针一次向后移动两步，慢指针一次向后移动1步，这样，在快指针到达终点的时候，满指针恰好到达中间的位置。</p>
+<p>由于过于简单，此处不用代码加以说明。</p>
+<hr>
+
     </div>
     
     
