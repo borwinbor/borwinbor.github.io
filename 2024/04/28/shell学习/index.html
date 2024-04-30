@@ -183,7 +183,12 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7/" style="color: #03a9f4">-基础工具</a>
+                <a href="/tags/%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7/" style="color: #ffa2c4">基础工具</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/shell/" style="color: #03a9f4">shell</a>
             </span>
             
         </span>
@@ -211,9 +216,11 @@ borwin@LAPTOP-U94KTQ0M:/mnt/d/Onedrive/桌面$ pwd //查看当前目录
 /mnt/d/Onedrive/桌面 //当前目录
 </code></pre>
 <p>以上操作完成了切入桌面这一目录的操作。(没有以$开头的行为电脑的输出)</p>
+<hr>
 <h4 id="ls命令"><a href="#ls命令" class="headerlink" title="ls命令"></a>ls命令</h4><p>作用：查看指定目录下包含哪些文件。</p>
 <p>语法：<code>ls 路径</code></p>
 <p>如果没有指定参数，ls打印当前目录下的文件</p>
+<hr>
 <h4 id="标记和选项"><a href="#标记和选项" class="headerlink" title="标记和选项"></a>标记和选项</h4><p>什么是标记和选项呢？它们以<code>-</code>开头，可以改变程序的行为。</p>
 <p>通常，在执行程序的时候使用<code>-h</code>或者<code>-help</code>来打印帮助信息。</p>
 <p>下面举一个使用标记和选项的例子：</p>
@@ -226,6 +233,7 @@ drwxrwxrwx 1 borwin borwin 4096 Mar  9 22:29  pytorch学习
 </code></pre>
 <p>前面一串字符串中d表示文件夹合集是一个目录，然后接下来的九个字符，每三个字符一组(rwx),它们分别代表了文件所有者、用户组以及其它所有人具有的权限。</p>
 <p>r代表可读权限，w代表可写权限，x代表可执行权限(搜索权限)，如果不具有该权限，系统会打印出<code>r-x</code>之类的字符串，代表不具有修改权限。</p>
+<hr>
 <h4 id="mv命令"><a href="#mv命令" class="headerlink" title="mv命令"></a>mv命令</h4><p>作用：为文件或者目录重命名，或者将文件或目录移动到其它位置。</p>
 <p>语法：<br><code>mv [options] source dest</code></p>
 <p><code>mv [options] source... directory</code></p>
@@ -258,6 +266,7 @@ drwxrwxrwx 1 borwin borwin 4096 Mar  9 22:29  pytorch学习
 <td>目录名 dest_directory 已存在，将 source_directory 移动到目录名 dest_directory 中；目录名 dest_directory 不存在则 source_directory 改名为目录名 dest_directory</td>
 </tr>
 </tbody></table>
+<hr>
 <h4 id="cp命令"><a href="#cp命令" class="headerlink" title="cp命令"></a>cp命令</h4><p>作用:复制文件或者目录(包含粘贴操作)</p>
 <p>语法：<code>cp [options] source dest</code></p>
 <p>对options中的参数加以说明：</p>
@@ -293,6 +302,7 @@ drwxrwxrwx 1 borwin borwin 4096 Mar  9 22:29  pytorch学习
 <td>复制文件，并在目标文件已存在时进行确认</td>
 </tr>
 </tbody></table>
+<hr>
 <h4 id="mkdir命令"><a href="#mkdir命令" class="headerlink" title="mkdir命令"></a>mkdir命令</h4><p>作用：创建目录</p>
 <p>语法：<code>mkdir [-p] dirName</code></p>
 <p>参数说明：-p 确保目录名称存在，不存在的就建一个。</p>
@@ -314,8 +324,10 @@ drwxrwxrwx 1 borwin borwin 4096 Mar  9 22:29  pytorch学习
 </tr>
 </tbody></table>
 <p>注意：在上面的第二个例子中若不加 -p 参数，且原本 runoob2 目录不存在，则产生错误。</p>
+<hr>
 <h4 id="用户手册"><a href="#用户手册" class="headerlink" title="用户手册"></a>用户手册</h4><p>如果想要知道关于程序参数、输入输出的信息，亦或是想要了解它们的工作方式，可以用<code>man</code>程序查看其用户手册。</p>
 <p>例如<code>man ls</code>就能查看<code>ls</code>程序的用户手册</p>
+<hr>
 <h4 id="在程序之间创建连接"><a href="#在程序之间创建连接" class="headerlink" title="在程序之间创建连接"></a>在程序之间创建连接</h4><p>在 shell 中，程序有两个主要的“流”：它们的输入流和输出流。 当程序尝试读取信息时，它们会从输入流中进行读取，当程序打印信息时，它们会将信息输出到输出流中。 通常，一个程序的输入输出流都是您的终端。也就是，您的键盘作为输入，显示器作为输出。 但是，我们也可以重定向这些流！</p>
 <p>最简单的两种重定向是<code>&lt; file</code>与<code>&gt; file</code>,分别为程序的输入重定向与输出的重定向</p>
 <p>举例：</p>
@@ -336,6 +348,7 @@ drwxr-xr-x 1 root  root  4096 Jun 20  2019 var
 missing:~$ curl --head --silent google.com | grep --ignore-case content-length | cut --delimiter=&#39; &#39; -f2
 219
 </code></pre>
+<hr>
 <h4 id="sudo命令"><a href="#sudo命令" class="headerlink" title="sudo命令"></a>sudo命令</h4><p>作用:以管理者的身份来执行程序，不会受到权限的限制</p>
 <hr>
 
