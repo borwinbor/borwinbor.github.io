@@ -188,7 +188,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/shell/" style="color: #03a9f4">shell</a>
+                <a href="/tags/shell/" style="color: #00a596">shell</a>
             </span>
             
         </span>
@@ -208,14 +208,14 @@
 <p>在相对路径表示中,<code>.</code>表示当前目录，<code>..</code>表示上级目录。</p>
 <p>切换工作目录用<code>cd</code>操作来完成，格式为<code>cd 路径</code></p>
 <p>下面举几个例子：</p>
-<pre><code class="shell">borwin@LAPTOP-U94KTQ0M:/mnt/d/Onedrive/桌面$ cd .. //进入上级目录
-borwin@LAPTOP-U94KTQ0M:/mnt/d/Onedrive$ pwd //显示当前目录
-/mnt/d/Onedrive //当前目录
-borwin@LAPTOP-U94KTQ0M:/mnt/d/Onedrive$ cd ./桌面 //进入桌面目录
-borwin@LAPTOP-U94KTQ0M:/mnt/d/Onedrive/桌面$ pwd //查看当前目录
-/mnt/d/Onedrive/桌面 //当前目录
+<pre><code class="shell">cd .. # 进入上级目录
+pwd # 显示当前目录
+/mnt/d/Onedrive # 当前目录
+ cd ./桌面 # 进入桌面目录
+pwd # 查看当前目录
+/mnt/d/Onedrive/桌面 # 当前目录
 </code></pre>
-<p>以上操作完成了切入桌面这一目录的操作。(没有以$开头的行为电脑的输出)</p>
+<p>以上操作完成了切入桌面这一目录的操作。</p>
 <hr>
 <h4 id="ls命令"><a href="#ls命令" class="headerlink" title="ls命令"></a>ls命令</h4><p>作用：查看指定目录下包含哪些文件。</p>
 <p>语法：<code>ls 路径</code></p>
@@ -224,7 +224,7 @@ borwin@LAPTOP-U94KTQ0M:/mnt/d/Onedrive/桌面$ pwd //查看当前目录
 <h4 id="标记和选项"><a href="#标记和选项" class="headerlink" title="标记和选项"></a>标记和选项</h4><p>什么是标记和选项呢？它们以<code>-</code>开头，可以改变程序的行为。</p>
 <p>通常，在执行程序的时候使用<code>-h</code>或者<code>-help</code>来打印帮助信息。</p>
 <p>下面举一个使用标记和选项的例子：</p>
-<pre><code class="shell">borwin@LAPTOP-U94KTQ0M:/mnt/d/Onedrive/桌面$ ls -l ./文件夹合集
+<pre><code class="shell">ls -l ./文件夹合集
 </code></pre>
 <p>通过<code>ls -help</code>中的帮助信息可以知道<code>ls -l</code>的作用是更加详细地列出目录文件或文件夹下的信息。</p>
 <p>当我输入这个指令后，交互界面会打印出例如以下的代码：</p>
