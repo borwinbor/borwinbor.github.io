@@ -172,6 +172,280 @@
         
 
 <div class="post">
+    <a href="/2024/05/09/%E7%AC%AC33%E6%AC%A1CCF%E8%AE%A4%E8%AF%81%E9%A2%98%E8%A7%A3/">
+        <h2 class="post-title">第33次CCF认证题解</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/5/9
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h2 id="1-词频统计"><a href="#1-词频统计" class="headerlink" title="1.词频统计"></a>1.词频统计</h2><p>简单题</p>
+<pre><code class="cpp">#include&lt;bits/stdc++.h&gt;
+
+using namespace std;
+
+const int N=110;
+int n,m;
+int cnt[N];//记录每个单词出现的次数
+int cn[N];//记录每个单词所出现的文章的个数
+int flag[N]; 
+
+int main()
+&#123;
+    cin&gt;&gt;n&gt;&gt;m;
+    int count1,num;
+    
+    for(int i=1;i&lt;=n;i++)
+    &#123;
+        cin&gt;&gt;count1;
+        for(int j=1;j&lt;=count1;j++)
+        &#123;
+            cin&gt;&gt;num;
+            if(!flag[num])
+            &#123;
+                cn[num]++;
+                flag[num]=1; 
+            &#125;
+            cnt[num]++;
+        &#125;
+        memset(flag,0,sizeof(flag));
+    &#125;
+    
+    for(int i=1;i&lt;=m;i++)
+    &#123;
+        cout&lt;&lt;cn[i]&lt;&lt;&quot; &quot;&lt;&lt;cnt[i]&lt;&lt;&#39;\n&#39;;
+    &#125;
+    
+    return 0;
+&#125;
+</code></pre>
+<hr>
+<h2 id="相似度计算"><a href="#相似度计算" class="headerlink" title="相似度计算"></a>相似度计算</h2><p>直接开set,没什么好说的</p>
+<pre><code class="cpp">#include&lt;bits/stdc++.h&gt;
+
+using namespace std;
+
+const int N=1e4+10;
+int cn,cnt;//cn记录交集的单词数,cnt记录并集的单词数
+int n,m; 
+string word1[N],word2[N];
+set&lt;string&gt;bin,jiao,words1,words2;
+
+int main()
+&#123;
+    cin&gt;&gt;n&gt;&gt;m;
+    
+    for(int i=1;i&lt;=n;i++)
+    &#123;
+        cin&gt;&gt;word1[i];
+        for(int j=0;j&lt;word1[i].length();j++)
+        &#123;
+            if(word1[i][j]&gt;=&#39;A&#39;&amp;&amp;word1[i][j]&lt;=&#39;Z&#39;)
+            &#123;
+                word1[i][j]=word1[i][j]-&#39;A&#39;+&#39;a&#39;;
+            &#125;
+        &#125;
+        bin.insert(word1[i]);
+        words1.insert(word1[i]);
+    &#125;
+    
+    for(int i=1;i&lt;=m;i++)
+    &#123;
+        cin&gt;&gt;word2[i];
+        for(int j=0;j&lt;word2[i].length();j++)
+        &#123;
+            if(word2[i][j]&gt;=&#39;A&#39;&amp;&amp;word2[i][j]&lt;=&#39;Z&#39;)
+            &#123;
+                word2[i][j]=word2[i][j]-&#39;A&#39;+&#39;a&#39;;
+            &#125;
+        &#125;
+        bin.insert(word2[i]);
+        words2.insert(word2[i]);
+    &#125;
+    
+    for(set&lt;string&gt;::iterator it=words2.begin();it!=words2.end();it++)
+    &#123;
+        if(words1.find(*it)!=words1.end())cn++;
+    &#125;
+    
+    cout&lt;&lt;cn&lt;&lt;&#39;\n&#39;&lt;&lt;bin.size();
+    
+    return 0;
+&#125;
+</code></pre>
+<hr>
+<h2 id="3-化学方程式配平"><a href="#3-化学方程式配平" class="headerlink" title="3.化学方程式配平"></a>3.化学方程式配平</h2><p>根据题意写代码就行了，这么简单的题我当时居然没拿100分，有点气人</p>
+<pre><code class="cpp">#include&lt;bit/stdc++.h&gt;
+
+using namespace std;
+
+void gauss(double a[][50], int x, int y, int hang, int lie)
+&#123;
+    if (x &gt;= hang || y &gt;= lie)
+        return;
+    bool flag = true; // 用于判断第一列是否为空
+    int idx = 0;//用于标记找到的第一个元素不为0的行号
+    for (int i = x; i &lt; hang; i++)
+    &#123;
+        if (a[i][y] != 0)
+        &#123;
+            flag = false;
+            idx = i;
+            break;
+        &#125;
+    &#125;
+    if (flag == true)
+        gauss(a, x, y + 1, hang, lie);
+    else &#123;
+        //idx不为0时，需要将这一行与第一行换位置
+        if (idx != 0)
+        &#123;
+            for (int i = 0; i &lt; lie; i++)
+                swap(a[idx][i], a[x][i]);
+        &#125;
+        //对下面行中所有第一项不为0的行进行减操作
+        for (int i = idx + 1; i &lt; hang; i++)
+        &#123;
+            for (int j = y+1; j &lt; lie; j++)
+                a[i][j] -= a[i][y] / a[x][y] * a[x][j];
+            a[i][y] = 0;
+        &#125;
+        gauss(a, x + 1, y + 1, hang, lie);
+    &#125;
+&#125;
+
+void solve()
+&#123;
+    double a[50][50], cnt, q, k = 0, N = 0, flag = 0;//二维数组a模拟矩阵
+    string thing;//存储每一个方程式
+    set &lt;string&gt; s;//存储出现过的元素，并对其去重
+    map&lt;string, int&gt; b;//存储某个物质中某个元素所对应的序号，即在矩阵中的行数
+
+    memset(a, 0, sizeof(a));
+
+    cin &gt;&gt; cnt;
+
+    for (int i = 0; i &lt; cnt; i++)//创建矩阵
+    &#123;
+        cin &gt;&gt; thing;
+        q = 0;
+        string temp = &quot;&quot;;
+        while (q &lt; thing.length())
+        &#123;
+            temp = &quot;&quot;;
+            while (q &lt; thing.length() &amp;&amp; isalpha(thing[q]))
+            &#123;
+                temp.push_back(thing[q]);
+                q++;
+            &#125;
+            s.insert(temp);
+            int x = 0;
+            while (q &lt; thing.length() &amp;&amp; isdigit(thing[q]))
+            &#123;
+                x = x * 10 + thing[q] - &#39;0&#39;;
+                q++;
+            &#125;
+
+
+            if (!b.count(temp))//如果没出现过，则为其编号
+            &#123;
+                b[temp] = k++;
+            &#125;
+            a[b[temp]][i] = x;
+        &#125;
+    &#125;
+
+    /*for (int i = 0; i &lt; s.size(); i++)
+    &#123;
+        for (int j = 0; j &lt; cnt; j++)
+            cout &lt;&lt; a[i][j] &lt;&lt; &#39; &#39;;
+        cout &lt;&lt; endl;
+    &#125;*/
+
+    //cout &lt;&lt; &#39;\n&#39; &lt;&lt; &#39;\n&#39;;
+
+    gauss(a, 0, 0, s.size(), cnt);//高斯消元
+
+    /*for (int i = 0; i &lt; s.size(); i++)
+    &#123;
+        for (int j = 0; j &lt; cnt; j++)
+            cout &lt;&lt; a[i][j] &lt;&lt; &#39; &#39;;
+        cout &lt;&lt; endl;
+    &#125;*/
+
+    for (int i = 0; i &lt; s.size(); i++)
+    &#123;
+        flag = 0;
+        for (int j = 0; j &lt; cnt; j++)
+        &#123;
+            if (a[i][j] != 0)
+            &#123;
+                N++;
+                flag = 1;
+                break;
+            &#125;
+        &#125;
+        if (flag == 0)
+            break;
+    &#125;
+
+    if (N &lt; cnt)
+        cout &lt;&lt; &quot;Y&quot; &lt;&lt; &#39;\n&#39;;
+    else
+        cout &lt;&lt; &quot;N&quot; &lt;&lt; &#39;\n&#39;;
+&#125;
+
+
+int main()
+&#123;
+    int n;
+    cin &gt;&gt; n;
+    while (n--)
+        solve();
+    return 0;
+&#125;
+</code></pre>
+<hr>
+<h2 id="4-十滴水"><a href="#4-十滴水" class="headerlink" title="4.十滴水"></a>4.十滴水</h2><p>关心水滴的坐标大小关系，并不关心其具体值是多少。所以，直接用set 存下所有的坐标，每次用 lowerbound 查找目标水滴，然后再将其左右两端进行更新。如果有多个待删水滴，则使用一个优先队列，按照下标排序即可。</p>
+<pre><code class="cpp">
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/csp/" style="color: #00bcd4">csp</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #ffa2c4">算法</a>
+        </span>
+        
+    </div>
+    <a href="/2024/05/09/%E7%AC%AC33%E6%AC%A1CCF%E8%AE%A4%E8%AF%81%E9%A2%98%E8%A7%A3/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2024/05/07/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6%EF%BC%88%E4%B8%8A%EF%BC%89%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">
         <h2 class="post-title">离散数学（上）期末复习</h2>
     </a>
@@ -189,7 +463,7 @@
     <div class="description">
         <div class="content" v-pre>
             
-            <h2 id="思维导图持续更新中……"><a href="#思维导图持续更新中……" class="headerlink" title="思维导图持续更新中……"></a>思维导图持续更新中……</h2><h4 id="离散数学（上）"><a href="#离散数学（上）" class="headerlink" title="离散数学（上）"></a><a target="_blank" rel="noopener" href="https://gitmind.cn/app/docs/m3jtdt2i">离散数学（上）</a></h4><p>点击以上链接😉</p>
+            <h2 id="思维导图持续更新中……"><a href="#思维导图持续更新中……" class="headerlink" title="思维导图持续更新中……"></a>思维导图持续更新中……</h2><h4 id="离散数学（上）-https-gitmind-cn-app-docs-m3jtdt2i"><a href="#离散数学（上）-https-gitmind-cn-app-docs-m3jtdt2i" class="headerlink" title="[离散数学（上）](https://gitmind.cn  &#x2F;app&#x2F;docs&#x2F;m3jtdt2i)"></a>[离散数学（上）](<a target="_blank" rel="noopener" href="https://gitmind.cn/">https://gitmind.cn</a>  &#x2F;app&#x2F;docs&#x2F;m3jtdt2i)</h4><p>点击以上链接😉</p>
 
             
         </div>
@@ -204,7 +478,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/" style="color: #00bcd4">离散数学</a>
+            <a href="/tags/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/" style="color: #00a596">离散数学</a>
         </span>
         
     </div>
@@ -253,12 +527,12 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7/" style="color: #00bcd4">基础工具</a>
+            <a href="/tags/%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7/" style="color: #ff7d73">基础工具</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/shell/" style="color: #ffa2c4">shell</a>
+            <a href="/tags/shell/" style="color: #00bcd4">shell</a>
         </span>
         
     </div>
@@ -372,7 +646,7 @@
         
         <span class="tag">
             
-            <a href="/tags/shell/" style="color: #03a9f4">shell</a>
+            <a href="/tags/shell/" style="color: #00a596">shell</a>
         </span>
         
     </div>
@@ -421,7 +695,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #ffa2c4">算法</a>
+            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #00bcd4">算法</a>
         </span>
         
     </div>
@@ -429,7 +703,7 @@
 </div>
 
 <div class="post">
-    <a href="/2024/04/18/hello-world/">
+    <a href="/2024/04/18/diary/">
         <h2 class="post-title">一些日常的碎碎念</h2>
     </a>
     <div class="category-and-date">
@@ -478,7 +752,7 @@
         </span>
         
     </div>
-    <a href="/2024/04/18/hello-world/" class="go-post">阅读全文</a>
+    <a href="/2024/04/18/diary/" class="go-post">阅读全文</a>
 </div>
 
 
