@@ -174,12 +174,12 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #00a596">算法</a>
+                <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #ff7d73">算法</a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/csp/" style="color: #ffa2c4">csp</a>
+                <a href="/tags/csp/" style="color: #03a9f4">csp</a>
             </span>
             
         </span>
@@ -415,7 +415,85 @@ int main()
 </code></pre>
 <hr>
 <h2 id="4-十滴水"><a href="#4-十滴水" class="headerlink" title="4.十滴水"></a>4.十滴水</h2><p>关心水滴的坐标大小关系，并不关心其具体值是多少。所以，直接用set 存下所有的坐标，每次用 lowerbound 查找目标水滴，然后再将其左右两端进行更新。如果有多个待删水滴，则使用一个优先队列，按照下标排序即可。</p>
-<pre><code class="cpp">
+<pre><code class="cpp">#include&lt;bits/stdc++.h&gt;
+
+using namespace std;
+
+//题目大体思路：用一个结构体来存储有水滴的格子的序号跟水滴数
+//用set存储该结构体，之后每进行一次操作便将操作的结点在set中删除，并依次向左和向右执行操作
+//在考虑哪些水滴会炸裂时，用优先队列存储水滴数大于等于5的点，方便每次都是最左边的点先裂开，且能够对所有的点进行处理，不会遗漏
+
+struct node &#123;
+    int x, w;
+    bool operator &lt; (const node&amp; a)const &#123;
+        return x &lt; a.x;
+    &#125;
+    bool operator == (const node&amp; a)const &#123;
+        return x == a.x &amp;&amp; w == a.w;
+    &#125;
+&#125;;
+
+int main()
+&#123;
+    int c, m, n;
+    cin &gt;&gt; c &gt;&gt; m &gt;&gt; n;
+
+    set&lt;node&gt;s;
+
+    for (int i = 1; i &lt;= m; i++)
+    &#123;
+        int x, w;
+        cin &gt;&gt; x &gt;&gt; w;
+
+        s.insert(&#123; x,w &#125;);
+
+    &#125;
+
+    for (int i = 1; i &lt;= n; i++)
+    &#123;
+        int p;
+        cin &gt;&gt; p;
+
+        auto it = s.lower_bound(&#123; p,0 &#125;);//找到要裂开的点
+        auto temp = *it;
+        s.erase(it);
+        temp.w++;
+        s.insert(temp);
+
+        set&lt;int&gt;ans;//用于存储要裂开的点
+
+        if (temp.w &gt;= 5)ans.insert(temp.x);
+
+        while (!ans.empty())
+        &#123;
+            auto it = s.lower_bound(&#123;*ans.begin(),0&#125;);
+            ans.erase(ans.begin());
+            if (it != s.begin())
+            &#123;
+                auto it1 = it ;
+                it1--;
+                auto temp = *it1;
+                s.erase(it1);
+                temp.w++;
+                s.insert(temp);
+                if (temp.w &gt;= 5)ans.insert(temp.x);
+            &#125;
+            auto it2 = it;
+            it2++;
+            if (it2 != s.end())
+            &#123;
+                auto temp = *it2;
+                s.erase(it2);
+                temp.w++;
+                s.insert(temp);
+                if (temp.w &gt;= 5)ans.insert(temp.x);
+            &#125;
+            s.erase(it);
+        &#125;
+        cout &lt;&lt; s.size() &lt;&lt; endl;
+    &#125;
+    return 0;
+&#125;
 </code></pre>
 
     </div>
