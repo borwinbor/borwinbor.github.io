@@ -81,13 +81,13 @@
 <p><code>\</code>的范围是最广的,几乎可以对所有的特殊字符进行转义</p>
 <h5 id="2">2.<code>'</code></h5>
 <p><code>'</code>将会对其所包含的内容不加修饰，转义出来的内容就是所包含的内容,一个字符也不会改变</p>
-<h5 id="3">3.’&quot;’</h5>
+<h5 id="3-‘-’">3.‘&quot;’</h5>
 <p><code>&quot;</code>的使用范围比<code>'</code>小，<code>&quot;</code>会先将所包含的内容在shell中运行之后再进行输出</p>
 <p>例如&quot;tell me the date&quot;:这段字符中的date将会被shell运行，替换为当时的日期</p>
 <p>此外，shell中的特殊字符都会保留有特殊含义，再显示之前都会对其评估</p>
 <p>经以上总结，我们可以简单的写出这题的代码：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">echo &#x27;#!/bin/sh<br> curl --head --silent https://missing.csail.mit.edu&#x27; &gt; semester.txt<br></code></pre></td></tr></table></figure>
-<h2 id="4-使用-chmod-命令改变权限-使-semester-能够成功执行">4. 使用 chmod 命令改变权限，使 ./semester 能够成功执行</h2>
+<h2 id="4-使用-chmod-命令改变权限，使-semester-能够成功执行">4. 使用 chmod 命令改变权限，使 ./semester 能够成功执行</h2>
 <p>在我们直接在命令行输入<code>.\semester</code>时,我们会得到<code>Permission denied</code>,这是由于权限不够。</p>
 <p>在输入<code>ls -l</code>之后，我们得到<code>rw-r--r--</code>,发现没有搜索的权限，所以我们无法运行程序，这时我们需要<code>chmod</code>命令来改变权限</p>
 <p><code>chmod</code></p>
@@ -138,7 +138,7 @@
 <p>下面解释一下运行代码中第一行的<code>#!/bin/sh</code></p>
 <p><code>#!</code>被称为Shebang(Hashbang),在文件中存在Shebang的情况下，类Unix操作系统的程序加载器会分析Shebang后的内容，将这些内容作为解释器指令，并调用该指令，并将载有Shebang的文件路径作为该解释器的参数。</p>
 <p>所以在这里相当于这句话的作用是调用/bin/sh程序来执行下面的代码</p>
-<h2 id="5-使用-和-将-semester-文件输出的最后更改日期信息-写入主目录下的-last-modified-txt-的文件中">5. 使用 | 和 &gt; ，将 semester 文件输出的最后更改日期信息，写入主目录下的 last-modified.txt 的文件中</h2>
+<h2 id="5-使用-和-，将-semester-文件输出的最后更改日期信息，写入主目录下的-last-modified-txt-的文件中">5. 使用 | 和 &gt; ，将 semester 文件输出的最后更改日期信息，写入主目录下的 last-modified.txt 的文件中</h2>
 <figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">./semester | grep last-modified &gt; ~/last-modified.txt<br></code></pre></td></tr></table></figure>
 <p>借助将管道的输出信息输出给<code>grep</code>,然后<code>grep</code>查找输出中以<code>last-modified</code>开头的信息，然后重定向输出到主文件夹的<code>last-modified.txt</code>中</p>
 ]]></content>
@@ -151,18 +151,92 @@
       </tags>
   </entry>
   <entry>
+    <title>基础算法</title>
+    <url>/2024/04/28/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="快排">快排</h2>
+<p>时间复杂度为O(nlogn)</p>
+<p>算法概述：快排排序算法的核心是分治算法，往细一点讲就是：指定一个中间值，对序列进行划分，左部分全部小于该中间值，右部分全部大于中间值</p>
+<p>之后再对所划分成的两个部分再进行划分（递归处理），最后达成排序的效果。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">quick_sort</span><span class="hljs-params">(<span class="hljs-type">int</span> a[],<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span>(l&gt;=r) <span class="hljs-keyword">return</span>;<br><br>    <span class="hljs-type">int</span> mid=a[l+r&gt;&gt;<span class="hljs-number">1</span>],le=l<span class="hljs-number">-1</span>,re=r+<span class="hljs-number">1</span>;<br>    <br>    <span class="hljs-keyword">while</span>(le&lt;re)<br>    &#123;<br>        <span class="hljs-keyword">do</span> le++; <span class="hljs-keyword">while</span>(a[le]&lt;mid);<br>        <span class="hljs-keyword">do</span> ri--; <span class="hljs-keyword">while</span>(a[ri]&gt;mid);<br>        <span class="hljs-keyword">if</span>(le&lt;ri)<span class="hljs-built_in">swap</span>(a[le],a[ri]);<br>    &#125;<br>    <br>    <span class="hljs-built_in">quick_sort</span>(l,re);<br>    <span class="hljs-built_in">quick_sort</span>(re+<span class="hljs-number">1</span>,r);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>可能会有人对以下递归中的参数有所疑问</p>
+<p><code>quick_sort(l,re); quick_sort(re+1,r);</code></p>
+<p>re指向的是从右到左的第一个小于mid的数，相当于要对从l到re进行排序，从re+1到r进行排序,这样解释是不是容易懂一些了呢？</p>
+<hr>
+<h2 id="归并排序">归并排序</h2>
+<p>时间复杂度:O(nlogn)</p>
+<p>分治的思想，及将序列分成两个部分，将这两个部分分别排序,之后合并为一个序列。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">merge_sort</span><span class="hljs-params">(<span class="hljs-type">int</span> a[],l,r)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span>(l&gt;=r)<span class="hljs-keyword">return</span>;<span class="hljs-comment">//递归结束条件</span><br>    <br>    <span class="hljs-type">int</span> mid=l+r&gt;&gt;<span class="hljs-number">1</span>,le=l,ri=mid+<span class="hljs-number">1</span>;<br>    <br>    <span class="hljs-built_in">merge_sort</span>(a,l,mid);<span class="hljs-built_in">merge_sort</span>(a,mid+<span class="hljs-number">1</span>,r);<span class="hljs-comment">//分别排序</span><br>    <br>    vector&lt;<span class="hljs-type">int</span>&gt;c;<span class="hljs-comment">//用于暂存合并后的排序好的数组</span><br>    <br>    <span class="hljs-keyword">while</span>(le&lt;ri)<span class="hljs-comment">//合并数组</span><br>        <span class="hljs-keyword">if</span>(a[le]&lt;=a[ri])c.<span class="hljs-built_in">push_back</span>(a[le++]);<br>        <span class="hljs-keyword">else</span> c.<span class="hljs-built_in">push_back</span>(a[ri++]);<br>    <br>    <span class="hljs-comment">//可能会出现一边没有填入vector完的情况</span><br>    <span class="hljs-keyword">while</span>(le&lt;=mid)c.<span class="hljs-built_in">push_back</span>(a[le++]);<br>    <span class="hljs-keyword">while</span>(ri&lt;=r)c.<span class="hljs-built_in">push_back</span>(a[ri++]);<br>    <br>    <span class="hljs-comment">//将暂存的数据填入原来的数组中</span><br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=l,k=<span class="hljs-number">0</span>;i&lt;=r;i++,k++)a[i]=c[k];<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>其实在算法题中直接调用sort函数就行了(在数组比较短的时候是插入排序，数组比较长的时候是快排)，了解以上两种排序算法其实是加深对分治的理解，除了这几种排序算法外还有冒泡排序、选择排序等算法。</p>
+<p>排序算法能够做到的最好的时间复杂度就是O(nlogn)了。</p>
+<hr>
+<h2 id="二分">二分</h2>
+<p>此模板不用考虑mid+1或mid-1的情况,比Y总的模板好用qwq</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">int</span> l=<span class="hljs-number">-1</span>,r=n;<span class="hljs-comment">//n为数组长度,数组从0开始存储时这样初始化</span><br><span class="hljs-keyword">while</span>(l+<span class="hljs-number">1</span>!=r)<br>&#123;<br>    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">check</span>())l=mid;<br>    <span class="hljs-keyword">else</span> r=mid;<br>&#125;<span class="hljs-comment">//最后根据实际情况选取l或者r作为结果</span><br></code></pre></td></tr></table></figure>
+<h4 id="下面详细讲一下这串代码">下面详细讲一下这串代码:</h4>
+<h5 id="为什么L的初始值为-1，R的初始值为N">为什么L的初始值为-1，R的初始值为N?</h5>
+<p>这样赋值可以保证数组不会越界</p>
+<h5 id="为什么循环结束的条件是while-L-1-R">为什么循环结束的条件是while(L+1!=R)?</h5>
+<p>之前学过二分的小伙伴可能会发现，之前学的二分，他循环结束的条件是while(L&lt;R)</p>
+<p>而这边给出的循环条件是while(L+1!=R) 其实，就是当L和R相邻的时候，循环就结束，而原本的while(L&lt;R)</p>
+<p>是当两区间重合以后，循环才结束，所以之前我们需要判断对mid进行加一或者减一的操作，而且因为区间重合的问题，最后返回的L、R还要再进行判断，而这边的这个二分，因为区间反回的是不重合的两区间，只有L=mid和R=mid这两种情况，最后根据需要返回L或者R；</p>
+<h5 id="为什么不会陷入死循环">为什么不会陷入死循环?</h5>
+<p>对于比较奇葩的情况，比如数组大小为1或者2</p>
+<p>比如int a[1],b[2];</p>
+<p>由于我们是while(L+1!=R)结束循环，也就是当L和R相邻的时候结束条件</p>
+<p>对于a[1],他的下标为0 此时L=-1，R=n也就是1</p>
+<p>对于b[2],他的下标为0,1 此时L=-1，R=n也就是2</p>
+<p>所以无论何种情况，初始的L+1始终小于R，历经循环后最终L和R相邻，不会出现一开始L就和R重合等情况导致出现while(L+1!=R)循环不能结束的情况</p>
+<hr>
+<h2 id="前缀和">前缀和</h2>
+<p>前缀和算法适用于要经常取出数组中某一段的和的时候，能够将O(n)的取和操作优化为O(1)<br>
+就像它的名字一样，前缀和就是从数组开头一直到某个序号处的所有元素的和。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//假如有数组a[n+1],元素个数为n,从a[1]开始记录数据</span><br><span class="hljs-type">int</span> head_sum[n];<br>head_sum[<span class="hljs-number">0</span>]=<span class="hljs-number">0</span>;<br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)head_sum[i]=head_sum[i<span class="hljs-number">-1</span>]+a[i];<br></code></pre></td></tr></table></figure>
+<hr>
+<h2 id="差分">差分</h2>
+<p>差分数组可以说是取前缀的逆运算，差分数组的前缀和数组为原数组，差分用于对某一段连续的区间进行加减操作</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">int</span> sub[n];<br>sub[<span class="hljs-number">0</span>]=<span class="hljs-number">0</span>;<br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)sub[i]=a[i]-a[i<span class="hljs-number">-1</span>];<br></code></pre></td></tr></table></figure>
+<hr>
+<h2 id="双指针">双指针</h2>
+<p>双指针在多数情况下为左右指针与快慢指针的应用，当然也有一些情况需要灵活运用，下面举两个具体的例子，分别是左右指针与快慢指针的。</p>
+<h4 id="左右指针">左右指针</h4>
+<p>题目:输入一个递增排序的数组和一个数字s，在数组中查找两个数，使得它们的和正好是s。如果有多对数字的和等于s，则输出任意一对即可。</p>
+<p>显然，这题用暴力做法的时间复杂度为O(n^2),但是如果我们用双指针就大不一样了(O(n))，见如下代码：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//假定一定存在这样的一对数的和为s,假设我们已知数组的长度为n,且从1开始存储数据</span><br><span class="hljs-type">int</span> l=<span class="hljs-number">1</span>,r=n,res=<span class="hljs-number">0</span>;<br><span class="hljs-keyword">while</span>(l&lt;r)<br>&#123;<br>    <span class="hljs-keyword">while</span>(a[l]+a[r]&gt;s &amp;&amp; l&lt;r)r--;<br>    <span class="hljs-keyword">if</span>(a[l]+a[r]==s)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d %d&quot;</span>,a[l],a[r]);<br>        <span class="hljs-keyword">break</span>;<br>    &#125;<br>    l++;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>解释一下上面的代码中的为什么可以直接<code>l++;</code>,而不用重置r:</p>
+<p>当右指针扫描至a[l]+a[r]&lt;s的位置时,满足a[l]+a[s+1]&gt;s,这时将l指针向右移动,由于a[l+1]&gt;a[l],所以此时a[l]+a[r+1]&gt;s,所以r保持不变，继续向前遍历是合理的。</p>
+<h4 id="快慢指针">快慢指针</h4>
+<p>举个简单的例子：输出链表中间位置的值.</p>
+<p>何为快指针？何为慢指针？简单一点理解，走的快的为快指针，走的慢的为慢指针。</p>
+<p>例如在这题中，我们将快指针与慢指针都初始化为头指针，然后画快指针一次向后移动两步，慢指针一次向后移动1步，这样，在快指针到达终点的时候，满指针恰好到达中间的位置。</p>
+<p>由于过于简单，此处不用代码加以说明。</p>
+<hr>
+<h4 id="离散化">离散化</h4>
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础数据结构</title>
+    <url>/2024/05/01/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>shell学习</title>
     <url>/2024/04/28/shell%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h2 id="什么是shell">什么是Shell?</h2>
+    <content><![CDATA[<h2 id="什么是Shell">什么是Shell?</h2>
 <p>Shell是一种用户与计算机进行交互的文字接口，也是一种脚本语言。</p>
 <hr>
-<h2 id="shell有什么用？">Shell有什么用？</h2>
+<h2 id="Shell有什么用？">Shell有什么用？</h2>
 <p>允许用户执行程序，查找文件，操作文件，输入并获取某种半结构化的输出</p>
 <hr>
-<h2 id="shell的使用">Shell的使用</h2>
+<h2 id="Shell的使用">Shell的使用</h2>
 <p>注意：此教程使用于类Unix shell，例如 Bash 或 ZSH，所以如果你的电脑是Mac或者Linux系统，则可以直接开始学习。<br>
 如果您的电脑是Windows系统，请使用Wsl或者Linus虚拟机。</p>
-<h4 id="在shell中导航">在Shell中导航</h4>
+<h4 id="在Shell中导航">在Shell中导航</h4>
 <p>shell中的路径时一组被分割的目录，<code>/</code>代表系统的根目录。</p>
 <p>路径分为相对路径与绝对路径。</p>
 <p>相对路径指的是相对当前的目录的路径，当前工作目录可以用<code>pwd</code>命令来获取。</p>
@@ -317,81 +391,9 @@
       </tags>
   </entry>
   <entry>
-    <title>基础数据结构</title>
-    <url>/2024/05/01/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>基础算法</title>
-    <url>/2024/04/28/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="快排">快排</h2>
-<p>时间复杂度为O(nlogn)</p>
-<p>算法概述：快排排序算法的核心是分治算法，往细一点讲就是：指定一个中间值，对序列进行划分，左部分全部小于该中间值，右部分全部大于中间值</p>
-<p>之后再对所划分成的两个部分再进行划分（递归处理），最后达成排序的效果。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">quick_sort</span><span class="hljs-params">(<span class="hljs-type">int</span> a[],<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span>(l&gt;=r) <span class="hljs-keyword">return</span>;<br><br>    <span class="hljs-type">int</span> mid=a[l+r&gt;&gt;<span class="hljs-number">1</span>],le=l<span class="hljs-number">-1</span>,re=r+<span class="hljs-number">1</span>;<br>    <br>    <span class="hljs-keyword">while</span>(le&lt;re)<br>    &#123;<br>        <span class="hljs-keyword">do</span> le++; <span class="hljs-keyword">while</span>(a[le]&lt;mid);<br>        <span class="hljs-keyword">do</span> ri--; <span class="hljs-keyword">while</span>(a[ri]&gt;mid);<br>        <span class="hljs-keyword">if</span>(le&lt;ri)<span class="hljs-built_in">swap</span>(a[le],a[ri]);<br>    &#125;<br>    <br>    <span class="hljs-built_in">quick_sort</span>(l,re);<br>    <span class="hljs-built_in">quick_sort</span>(re+<span class="hljs-number">1</span>,r);<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>可能会有人对以下递归中的参数有所疑问</p>
-<p><code>quick_sort(l,re); quick_sort(re+1,r);</code></p>
-<p>re指向的是从右到左的第一个小于mid的数，相当于要对从l到re进行排序，从re+1到r进行排序,这样解释是不是容易懂一些了呢？</p>
-<hr>
-<h2 id="归并排序">归并排序</h2>
-<p>时间复杂度:O(nlogn)</p>
-<p>分治的思想，及将序列分成两个部分，将这两个部分分别排序,之后合并为一个序列。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">merge_sort</span><span class="hljs-params">(<span class="hljs-type">int</span> a[],l,r)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span>(l&gt;=r)<span class="hljs-keyword">return</span>;<span class="hljs-comment">//递归结束条件</span><br>    <br>    <span class="hljs-type">int</span> mid=l+r&gt;&gt;<span class="hljs-number">1</span>,le=l,ri=mid+<span class="hljs-number">1</span>;<br>    <br>    <span class="hljs-built_in">merge_sort</span>(a,l,mid);<span class="hljs-built_in">merge_sort</span>(a,mid+<span class="hljs-number">1</span>,r);<span class="hljs-comment">//分别排序</span><br>    <br>    vector&lt;<span class="hljs-type">int</span>&gt;c;<span class="hljs-comment">//用于暂存合并后的排序好的数组</span><br>    <br>    <span class="hljs-keyword">while</span>(le&lt;ri)<span class="hljs-comment">//合并数组</span><br>        <span class="hljs-keyword">if</span>(a[le]&lt;=a[ri])c.<span class="hljs-built_in">push_back</span>(a[le++]);<br>        <span class="hljs-keyword">else</span> c.<span class="hljs-built_in">push_back</span>(a[ri++]);<br>    <br>    <span class="hljs-comment">//可能会出现一边没有填入vector完的情况</span><br>    <span class="hljs-keyword">while</span>(le&lt;=mid)c.<span class="hljs-built_in">push_back</span>(a[le++]);<br>    <span class="hljs-keyword">while</span>(ri&lt;=r)c.<span class="hljs-built_in">push_back</span>(a[ri++]);<br>    <br>    <span class="hljs-comment">//将暂存的数据填入原来的数组中</span><br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=l,k=<span class="hljs-number">0</span>;i&lt;=r;i++,k++)a[i]=c[k];<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>其实在算法题中直接调用sort函数就行了(在数组比较短的时候是插入排序，数组比较长的时候是快排)，了解以上两种排序算法其实是加深对分治的理解，除了这几种排序算法外还有冒泡排序、选择排序等算法。</p>
-<p>排序算法能够做到的最好的时间复杂度就是O(nlogn)了。</p>
-<hr>
-<h2 id="二分">二分</h2>
-<p>此模板不用考虑mid+1或mid-1的情况,比Y总的模板好用qwq</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">int</span> l=<span class="hljs-number">-1</span>,r=n;<span class="hljs-comment">//n为数组长度,数组从0开始存储时这样初始化</span><br><span class="hljs-keyword">while</span>(l+<span class="hljs-number">1</span>!=r)<br>&#123;<br>    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">check</span>())l=mid;<br>    <span class="hljs-keyword">else</span> r=mid;<br>&#125;<span class="hljs-comment">//最后根据实际情况选取l或者r作为结果</span><br></code></pre></td></tr></table></figure>
-<h4 id="下面详细讲一下这串代码">下面详细讲一下这串代码:</h4>
-<h5 id="为什么l的初始值为-1-r的初始值为n">为什么L的初始值为-1，R的初始值为N?</h5>
-<p>这样赋值可以保证数组不会越界</p>
-<h5 id="为什么循环结束的条件是while-l-1-r">为什么循环结束的条件是while(L+1!=R)?</h5>
-<p>之前学过二分的小伙伴可能会发现，之前学的二分，他循环结束的条件是while(L&lt;R)</p>
-<p>而这边给出的循环条件是while(L+1!=R) 其实，就是当L和R相邻的时候，循环就结束，而原本的while(L&lt;R)</p>
-<p>是当两区间重合以后，循环才结束，所以之前我们需要判断对mid进行加一或者减一的操作，而且因为区间重合的问题，最后返回的L、R还要再进行判断，而这边的这个二分，因为区间反回的是不重合的两区间，只有L=mid和R=mid这两种情况，最后根据需要返回L或者R；</p>
-<h5 id="为什么不会陷入死循环">为什么不会陷入死循环?</h5>
-<p>对于比较奇葩的情况，比如数组大小为1或者2</p>
-<p>比如int a[1],b[2];</p>
-<p>由于我们是while(L+1!=R)结束循环，也就是当L和R相邻的时候结束条件</p>
-<p>对于a[1],他的下标为0 此时L=-1，R=n也就是1</p>
-<p>对于b[2],他的下标为0,1 此时L=-1，R=n也就是2</p>
-<p>所以无论何种情况，初始的L+1始终小于R，历经循环后最终L和R相邻，不会出现一开始L就和R重合等情况导致出现while(L+1!=R)循环不能结束的情况</p>
-<hr>
-<h2 id="前缀和">前缀和</h2>
-<p>前缀和算法适用于要经常取出数组中某一段的和的时候，能够将O(n)的取和操作优化为O(1)<br>
-就像它的名字一样，前缀和就是从数组开头一直到某个序号处的所有元素的和。</p>
-<h2 id="code-3"><figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//假如有数组a[n+1],元素个数为n,从a[1]开始记录数据</span><br><span class="hljs-type">int</span> head_sum[n];<br>head_sum[<span class="hljs-number">0</span>]=<span class="hljs-number">0</span>;<br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)head_sum[i]=head_sum[i<span class="hljs-number">-1</span>]+a[i];<br></code></pre></td></tr></table></figure></h2>
-<h2 id="差分">差分</h2>
-<p>差分数组可以说是取前缀的逆运算，差分数组的前缀和数组为原数组，差分用于对某一段连续的区间进行加减操作</p>
-<h2 id="code-4"><figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">int</span> sub[n];<br>sub[<span class="hljs-number">0</span>]=<span class="hljs-number">0</span>;<br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)sub[i]=a[i]-a[i<span class="hljs-number">-1</span>];<br></code></pre></td></tr></table></figure></h2>
-<h2 id="双指针">双指针</h2>
-<p>双指针在多数情况下为左右指针与快慢指针的应用，当然也有一些情况需要灵活运用，下面举两个具体的例子，分别是左右指针与快慢指针的。</p>
-<h4 id="左右指针">左右指针</h4>
-<p>题目:输入一个递增排序的数组和一个数字s，在数组中查找两个数，使得它们的和正好是s。如果有多对数字的和等于s，则输出任意一对即可。</p>
-<p>显然，这题用暴力做法的时间复杂度为O(n^2),但是如果我们用双指针就大不一样了(O(n))，见如下代码：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//假定一定存在这样的一对数的和为s,假设我们已知数组的长度为n,且从1开始存储数据</span><br><span class="hljs-type">int</span> l=<span class="hljs-number">1</span>,r=n,res=<span class="hljs-number">0</span>;<br><span class="hljs-keyword">while</span>(l&lt;r)<br>&#123;<br>    <span class="hljs-keyword">while</span>(a[l]+a[r]&gt;s &amp;&amp; l&lt;r)r--;<br>    <span class="hljs-keyword">if</span>(a[l]+a[r]==s)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d %d&quot;</span>,a[l],a[r]);<br>        <span class="hljs-keyword">break</span>;<br>    &#125;<br>    l++;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>解释一下上面的代码中的为什么可以直接<code>l++;</code>,而不用重置r:</p>
-<p>当右指针扫描至a[l]+a[r]&lt;s的位置时,满足a[l]+a[s+1]&gt;s,这时将l指针向右移动,由于a[l+1]&gt;a[l],所以此时a[l]+a[r+1]&gt;s,所以r保持不变，继续向前遍历是合理的。</p>
-<h4 id="快慢指针">快慢指针</h4>
-<p>举个简单的例子：输出链表中间位置的值.</p>
-<p>何为快指针？何为慢指针？简单一点理解，走的快的为快指针，走的慢的为慢指针。</p>
-<p>例如在这题中，我们将快指针与慢指针都初始化为头指针，然后画快指针一次向后移动两步，慢指针一次向后移动1步，这样，在快指针到达终点的时候，满指针恰好到达中间的位置。</p>
-<p>由于过于简单，此处不用代码加以说明。</p>
-<hr>
-<h4 id="离散化">离散化</h4>
-]]></content>
-      <categories>
-        <category>学习</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>离散数学（上）期末复习</title>
     <url>/2024/05/07/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6%EF%BC%88%E4%B8%8A%EF%BC%89%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/</url>
-    <content><![CDATA[<h2 id="思维导图持续更新中">思维导图持续更新中…</h2>
+    <content><![CDATA[<h2 id="思维导图持续更新中…">思维导图持续更新中…</h2>
 <p><a href="https://gitmind.cn/app/docs/m3jtdt2i">离散数学（上）</a></p>
 <p>点击以上链接😉</p>
 ]]></content>
