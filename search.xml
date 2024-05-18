@@ -27,130 +27,6 @@
       </tags>
   </entry>
   <entry>
-    <title>利用shell解决的一些问题</title>
-    <url>/2024/05/02/%E5%88%A9%E7%94%A8shell%E8%A7%A3%E5%86%B3%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h2 id="1-在-tmp-下新建一个名为-missing-的文件夹">1.在 /tmp 下新建一个名为 missing 的文件夹</h2>
-<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">cd ~/tmp<br>mkdir missing<br></code></pre></td></tr></table></figure>
-<hr>
-<h2 id="2-用-touch-在-missing-文件夹中新建一个叫-semester-的文件">2.用 touch 在 missing 文件夹中新建一个叫 semester 的文件</h2>
-<p>首先学习了一下touch的用法</p>
-<p>作用：修改文件或者目录的时间属性，包括存取时间和更改时间。如果文件不存在，就建立一个新的文件</p>
-<p>语法：<code>touch [-acfm][-d&lt;日期时间&gt;][-r&lt;参考文件或目录&gt;] [-t&lt;日期时间&gt;][--help][--version][文件或目录…]</code></p>
-<p>参数说明：</p>
-<ul>
-<li>a 改变档案的读取时间记录。</li>
-<li>m 改变档案的修改时间记录.</li>
-<li>c 假如目的档案不存在，不会建立新的档案。与 --no-create 的效果一样。</li>
-<li>f 不使用，是为了与其他 unix 系统的相容性而保留。</li>
-<li>r 使用参考档的时间记录，与 --file 的效果一样。</li>
-<li>d 设定时间与日期，可以使用各种不同的格式。</li>
-<li>t 设定档案的时间记录，格式与 date 指令相同。</li>
-<li>–no-create 不会建立新档案。</li>
-<li>–help 列出指令格式。</li>
-<li>–version 列出版本讯息。</li>
-</ul>
-<p>实例与运行效果：</p>
-<table>
-<thead>
-<tr>
-<th>实例</th>
-<th>运行效果</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>touch testfile</td>
-<td>修改文件&quot;testfile&quot;的时间属性为当前系统时间</td>
-</tr>
-<tr>
-<td>touch file</td>
-<td>使用指令&quot;touch&quot;时，如果指定的文件不存在，则将创建一个新的空白文件</td>
-</tr>
-</tbody>
-</table>
-<p>可以用<code>ls -l</code>来查看时间属性</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">cd missing<br>touch semester<br></code></pre></td></tr></table></figure>
-<hr>
-<h2 id="3-将以下内容一行一行地写入-semester-文件：">3.将以下内容一行一行地写入 semester 文件：</h2>
-<p><code>#!/bin/sh</code></p>
-<p><code>curl --head --silent https://missing.csail.mit.edu</code></p>
-<p>这个题涉及到转义的问题，如果直接用双引号的话，!在双引号中也有特殊含义，下面详细讲一下shell中的转义问题。</p>
-<p>shell中的转义有三种途径：<code>\</code> <code>''</code> 与 <code>&quot;&quot;</code></p>
-<h4 id="三种转义方法的使用范围">三种转义方法的使用范围</h4>
-<h5 id="1">1.<code>\</code></h5>
-<p><code>\</code>的范围是最广的,几乎可以对所有的特殊字符进行转义</p>
-<h5 id="2">2.<code>'</code></h5>
-<p><code>'</code>将会对其所包含的内容不加修饰，转义出来的内容就是所包含的内容,一个字符也不会改变</p>
-<h5 id="3">3.’&quot;’</h5>
-<p><code>&quot;</code>的使用范围比<code>'</code>小，<code>&quot;</code>会先将所包含的内容在shell中运行之后再进行输出</p>
-<p>例如&quot;tell me the date&quot;:这段字符中的date将会被shell运行，替换为当时的日期</p>
-<p>此外，shell中的特殊字符都会保留有特殊含义，再显示之前都会对其评估</p>
-<p>经以上总结，我们可以简单的写出这题的代码：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">echo &#x27;#!/bin/sh<br> curl --head --silent https://missing.csail.mit.edu&#x27; &gt; semester.txt<br></code></pre></td></tr></table></figure>
-<h2 id="4-使用-chmod-命令改变权限-使-semester-能够成功执行">4. 使用 chmod 命令改变权限，使 ./semester 能够成功执行</h2>
-<p>在我们直接在命令行输入<code>.\semester</code>时,我们会得到<code>Permission denied</code>,这是由于权限不够。</p>
-<p>在输入<code>ls -l</code>之后，我们得到<code>rw-r--r--</code>,发现没有搜索的权限，所以我们无法运行程序，这时我们需要<code>chmod</code>命令来改变权限</p>
-<p><code>chmod</code></p>
-<p>作用：控制用户对文件的权限的命令</p>
-<p>语法：<code>chmod [-cfvR] [--help] [--version] mode file...</code></p>
-<p>参数说明：</p>
-<ul>
-<li>u 表示该文件的拥有者，g 表示与该文件的拥有者属于同一个群体(group)者，o 表示其他以外的人，a 表示这三者皆是</li>
-<li>+ 表示增加权限、- 表示取消权限、= 表示唯一设定权限</li>
-<li>r 表示可读取，w 表示可写入，x 表示可执行，X 表示只有当该文件是个子目录或者该文件已经被设定过为可执行</li>
-<li>-c : 若该文件权限确实已经更改，才显示其更改动作</li>
-<li>-f : 若该文件权限无法被更改也不要显示错误讯息</li>
-<li>-v : 显示权限变更的详细资料</li>
-<li>-R : 对目前目录下的所有文件与子目录进行相同的权限变更(即以递归的方式逐个变更)</li>
-<li>–help : 显示辅助说明</li>
-<li>–version : 显示版本</li>
-</ul>
-<p><img src="/picture/rwx.jpg" alt="示例"></p>
-<p>如上面的图片，该变权限实际上就是改变指定区域的字符，改变方式有八进制方式与符号模式。</p>
-<table>
-<thead>
-<tr>
-<th>实例</th>
-<th>运行结果</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>chmod ugo+r file1.txt</td>
-<td>将文件 file1.txt 设为所有人皆可读取</td>
-</tr>
-<tr>
-<td>chmod a+r file1.txt</td>
-<td>将文件 file1.txt 设为所有人皆可读取</td>
-</tr>
-<tr>
-<td>chmod -R a+r *</td>
-<td>将目前目录下的所有文件与子目录皆设为任何人可读取</td>
-</tr>
-<tr>
-<td>chmod 777 file</td>
-<td>将该目录对与所有对象的权限都设为rwx</td>
-</tr>
-</tbody>
-</table>
-<p>所以解决这一题我们用如下的代码：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">chmod u+x ./semester # 让文件所有者有搜索的权限<br>./semester # 运行程序<br></code></pre></td></tr></table></figure>
-<p>下面解释一下运行代码中第一行的<code>#!/bin/sh</code></p>
-<p><code>#!</code>被称为Shebang(Hashbang),在文件中存在Shebang的情况下，类Unix操作系统的程序加载器会分析Shebang后的内容，将这些内容作为解释器指令，并调用该指令，并将载有Shebang的文件路径作为该解释器的参数。</p>
-<p>所以在这里相当于这句话的作用是调用/bin/sh程序来执行下面的代码</p>
-<h2 id="5-使用-和-将-semester-文件输出的最后更改日期信息-写入主目录下的-last-modified-txt-的文件中">5. 使用 | 和 &gt; ，将 semester 文件输出的最后更改日期信息，写入主目录下的 last-modified.txt 的文件中</h2>
-<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">./semester | grep last-modified &gt; ~/last-modified.txt<br></code></pre></td></tr></table></figure>
-<p>借助将管道的输出信息输出给<code>grep</code>,然后<code>grep</code>查找输出中以<code>last-modified</code>开头的信息，然后重定向输出到主文件夹的<code>last-modified.txt</code>中</p>
-]]></content>
-      <categories>
-        <category>学习</category>
-      </categories>
-      <tags>
-        <tag>基础工具</tag>
-        <tag>shell</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>shell学习</title>
     <url>/2024/04/28/shell%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h2 id="什么是shell">什么是Shell?</h2>
@@ -317,20 +193,133 @@
       </tags>
   </entry>
   <entry>
-    <title>离散数学（上）期末复习</title>
-    <url>/2024/05/07/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6%EF%BC%88%E4%B8%8A%EF%BC%89%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/</url>
-    <content><![CDATA[<h2 id="思维导图持续更新中">思维导图持续更新中…</h2>
-<p><a href="https://gitmind.cn/app/docs/m3jtdt2i">离散数学（上）</a></p>
-<p>点击以上链接😉</p>
-]]></content>
-      <tags>
-        <tag>离散数学</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>基础数据结构</title>
     <url>/2024/05/01/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</url>
     <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>利用shell解决的一些问题</title>
+    <url>/2024/05/02/%E5%88%A9%E7%94%A8shell%E8%A7%A3%E5%86%B3%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="1-在-tmp-下新建一个名为-missing-的文件夹">1.在 /tmp 下新建一个名为 missing 的文件夹</h2>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">cd ~/tmp<br>mkdir missing<br></code></pre></td></tr></table></figure>
+<hr>
+<h2 id="2-用-touch-在-missing-文件夹中新建一个叫-semester-的文件">2.用 touch 在 missing 文件夹中新建一个叫 semester 的文件</h2>
+<p>首先学习了一下touch的用法</p>
+<p>作用：修改文件或者目录的时间属性，包括存取时间和更改时间。如果文件不存在，就建立一个新的文件</p>
+<p>语法：<code>touch [-acfm][-d&lt;日期时间&gt;][-r&lt;参考文件或目录&gt;] [-t&lt;日期时间&gt;][--help][--version][文件或目录…]</code></p>
+<p>参数说明：</p>
+<ul>
+<li>a 改变档案的读取时间记录。</li>
+<li>m 改变档案的修改时间记录.</li>
+<li>c 假如目的档案不存在，不会建立新的档案。与 --no-create 的效果一样。</li>
+<li>f 不使用，是为了与其他 unix 系统的相容性而保留。</li>
+<li>r 使用参考档的时间记录，与 --file 的效果一样。</li>
+<li>d 设定时间与日期，可以使用各种不同的格式。</li>
+<li>t 设定档案的时间记录，格式与 date 指令相同。</li>
+<li>–no-create 不会建立新档案。</li>
+<li>–help 列出指令格式。</li>
+<li>–version 列出版本讯息。</li>
+</ul>
+<p>实例与运行效果：</p>
+<table>
+<thead>
+<tr>
+<th>实例</th>
+<th>运行效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>touch testfile</td>
+<td>修改文件&quot;testfile&quot;的时间属性为当前系统时间</td>
+</tr>
+<tr>
+<td>touch file</td>
+<td>使用指令&quot;touch&quot;时，如果指定的文件不存在，则将创建一个新的空白文件</td>
+</tr>
+</tbody>
+</table>
+<p>可以用<code>ls -l</code>来查看时间属性</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">cd missing<br>touch semester<br></code></pre></td></tr></table></figure>
+<hr>
+<h2 id="3-将以下内容一行一行地写入-semester-文件：">3.将以下内容一行一行地写入 semester 文件：</h2>
+<p><code>#!/bin/sh</code></p>
+<p><code>curl --head --silent https://missing.csail.mit.edu</code></p>
+<p>这个题涉及到转义的问题，如果直接用双引号的话，!在双引号中也有特殊含义，下面详细讲一下shell中的转义问题。</p>
+<p>shell中的转义有三种途径：<code>\</code> <code>''</code> 与 <code>&quot;&quot;</code></p>
+<h4 id="三种转义方法的使用范围">三种转义方法的使用范围</h4>
+<h5 id="1">1.<code>\</code></h5>
+<p><code>\</code>的范围是最广的,几乎可以对所有的特殊字符进行转义</p>
+<h5 id="2">2.<code>'</code></h5>
+<p><code>'</code>将会对其所包含的内容不加修饰，转义出来的内容就是所包含的内容,一个字符也不会改变</p>
+<h5 id="3">3.’&quot;’</h5>
+<p><code>&quot;</code>的使用范围比<code>'</code>小，<code>&quot;</code>会先将所包含的内容在shell中运行之后再进行输出</p>
+<p>例如&quot;tell me the date&quot;:这段字符中的date将会被shell运行，替换为当时的日期</p>
+<p>此外，shell中的特殊字符都会保留有特殊含义，再显示之前都会对其评估</p>
+<p>经以上总结，我们可以简单的写出这题的代码：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">echo &#x27;#!/bin/sh<br> curl --head --silent https://missing.csail.mit.edu&#x27; &gt; semester.txt<br></code></pre></td></tr></table></figure>
+<h2 id="4-使用-chmod-命令改变权限-使-semester-能够成功执行">4. 使用 chmod 命令改变权限，使 ./semester 能够成功执行</h2>
+<p>在我们直接在命令行输入<code>.\semester</code>时,我们会得到<code>Permission denied</code>,这是由于权限不够。</p>
+<p>在输入<code>ls -l</code>之后，我们得到<code>rw-r--r--</code>,发现没有搜索的权限，所以我们无法运行程序，这时我们需要<code>chmod</code>命令来改变权限</p>
+<p><code>chmod</code></p>
+<p>作用：控制用户对文件的权限的命令</p>
+<p>语法：<code>chmod [-cfvR] [--help] [--version] mode file...</code></p>
+<p>参数说明：</p>
+<ul>
+<li>u 表示该文件的拥有者，g 表示与该文件的拥有者属于同一个群体(group)者，o 表示其他以外的人，a 表示这三者皆是</li>
+<li>+ 表示增加权限、- 表示取消权限、= 表示唯一设定权限</li>
+<li>r 表示可读取，w 表示可写入，x 表示可执行，X 表示只有当该文件是个子目录或者该文件已经被设定过为可执行</li>
+<li>-c : 若该文件权限确实已经更改，才显示其更改动作</li>
+<li>-f : 若该文件权限无法被更改也不要显示错误讯息</li>
+<li>-v : 显示权限变更的详细资料</li>
+<li>-R : 对目前目录下的所有文件与子目录进行相同的权限变更(即以递归的方式逐个变更)</li>
+<li>–help : 显示辅助说明</li>
+<li>–version : 显示版本</li>
+</ul>
+<p><img src="/picture/rwx.jpg" alt="示例"></p>
+<p>如上面的图片，该变权限实际上就是改变指定区域的字符，改变方式有八进制方式与符号模式。</p>
+<table>
+<thead>
+<tr>
+<th>实例</th>
+<th>运行结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chmod ugo+r file1.txt</td>
+<td>将文件 file1.txt 设为所有人皆可读取</td>
+</tr>
+<tr>
+<td>chmod a+r file1.txt</td>
+<td>将文件 file1.txt 设为所有人皆可读取</td>
+</tr>
+<tr>
+<td>chmod -R a+r *</td>
+<td>将目前目录下的所有文件与子目录皆设为任何人可读取</td>
+</tr>
+<tr>
+<td>chmod 777 file</td>
+<td>将该目录对与所有对象的权限都设为rwx</td>
+</tr>
+</tbody>
+</table>
+<p>所以解决这一题我们用如下的代码：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">chmod u+x ./semester # 让文件所有者有搜索的权限<br>./semester # 运行程序<br></code></pre></td></tr></table></figure>
+<p>下面解释一下运行代码中第一行的<code>#!/bin/sh</code></p>
+<p><code>#!</code>被称为Shebang(Hashbang),在文件中存在Shebang的情况下，类Unix操作系统的程序加载器会分析Shebang后的内容，将这些内容作为解释器指令，并调用该指令，并将载有Shebang的文件路径作为该解释器的参数。</p>
+<p>所以在这里相当于这句话的作用是调用/bin/sh程序来执行下面的代码</p>
+<h2 id="5-使用-和-将-semester-文件输出的最后更改日期信息-写入主目录下的-last-modified-txt-的文件中">5. 使用 | 和 &gt; ，将 semester 文件输出的最后更改日期信息，写入主目录下的 last-modified.txt 的文件中</h2>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">./semester | grep last-modified &gt; ~/last-modified.txt<br></code></pre></td></tr></table></figure>
+<p>借助将管道的输出信息输出给<code>grep</code>,然后<code>grep</code>查找输出中以<code>last-modified</code>开头的信息，然后重定向输出到主文件夹的<code>last-modified.txt</code>中</p>
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>基础工具</tag>
+        <tag>shell</tag>
+      </tags>
   </entry>
   <entry>
     <title>基础算法</title>
@@ -397,6 +386,17 @@
       </categories>
       <tags>
         <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>离散数学（上）期末复习</title>
+    <url>/2024/05/07/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6%EF%BC%88%E4%B8%8A%EF%BC%89%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/</url>
+    <content><![CDATA[<h2 id="思维导图持续更新中">思维导图持续更新中…</h2>
+<p><a href="https://gitmind.cn/app/docs/m3jtdt2i">离散数学（上）</a></p>
+<p>点击以上链接😉</p>
+]]></content>
+      <tags>
+        <tag>离散数学</tag>
       </tags>
   </entry>
   <entry>
