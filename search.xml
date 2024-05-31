@@ -193,11 +193,6 @@
       </tags>
   </entry>
   <entry>
-    <title>基础数据结构</title>
-    <url>/2024/05/01/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>利用shell解决的一些问题</title>
     <url>/2024/05/02/%E5%88%A9%E7%94%A8shell%E8%A7%A3%E5%86%B3%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h2 id="1-在-tmp-下新建一个名为-missing-的文件夹">1.在 /tmp 下新建一个名为 missing 的文件夹</h2>
@@ -361,10 +356,12 @@
 <h2 id="前缀和">前缀和</h2>
 <p>前缀和算法适用于要经常取出数组中某一段的和的时候，能够将O(n)的取和操作优化为O(1)<br>
 就像它的名字一样，前缀和就是从数组开头一直到某个序号处的所有元素的和。</p>
-<h2 id="code-3"><figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//假如有数组a[n+1],元素个数为n,从a[1]开始记录数据</span><br><span class="hljs-type">int</span> head_sum[n];<br>head_sum[<span class="hljs-number">0</span>]=<span class="hljs-number">0</span>;<br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)head_sum[i]=head_sum[i<span class="hljs-number">-1</span>]+a[i];<br></code></pre></td></tr></table></figure></h2>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//假如有数组a[n+1],元素个数为n,从a[1]开始记录数据</span><br><span class="hljs-type">int</span> head_sum[n];<br>head_sum[<span class="hljs-number">0</span>]=<span class="hljs-number">0</span>;<br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)head_sum[i]=head_sum[i<span class="hljs-number">-1</span>]+a[i];<br></code></pre></td></tr></table></figure>
+<hr>
 <h2 id="差分">差分</h2>
 <p>差分数组可以说是取前缀的逆运算，差分数组的前缀和数组为原数组，差分用于对某一段连续的区间进行加减操作</p>
-<h2 id="code-4"><figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">int</span> sub[n];<br>sub[<span class="hljs-number">0</span>]=<span class="hljs-number">0</span>;<br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)sub[i]=a[i]-a[i<span class="hljs-number">-1</span>];<br></code></pre></td></tr></table></figure></h2>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">int</span> sub[n];<br>sub[<span class="hljs-number">0</span>]=<span class="hljs-number">0</span>;<br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)sub[i]=a[i]-a[i<span class="hljs-number">-1</span>];<br></code></pre></td></tr></table></figure>
+<hr>
 <h2 id="双指针">双指针</h2>
 <p>双指针在多数情况下为左右指针与快慢指针的应用，当然也有一些情况需要灵活运用，下面举两个具体的例子，分别是左右指针与快慢指针的。</p>
 <h4 id="左右指针">左右指针</h4>
@@ -387,6 +384,11 @@
       <tags>
         <tag>算法</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>基础数据结构</title>
+    <url>/2024/05/01/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>离散数学（上）期末复习</title>
@@ -442,6 +444,34 @@
       </tags>
   </entry>
   <entry>
+    <title>第31次csp认证题解</title>
+    <url>/2024/05/30/%E7%AC%AC31%E6%AC%A1csp%E8%AE%A4%E8%AF%81%E9%A2%98%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="none"></h2>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+        <tag>csp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第32次csp认证题解</title>
+    <url>/2024/05/30/%E7%AC%AC32%E6%AC%A1csp%E8%AE%A4%E8%AF%81%E9%A2%98%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="仓库规划">仓库规划</h2>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-type">const</span> <span class="hljs-type">int</span> M = <span class="hljs-number">15</span>, N = <span class="hljs-number">1010</span>;<br><br><span class="hljs-type">int</span> a[N][M];<br><br><span class="hljs-type">int</span> n,m;<br><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">cmp</span><span class="hljs-params">(<span class="hljs-type">int</span> line1,<span class="hljs-type">int</span> line2)</span><span class="hljs-comment">//对每一行行判断,line2是否全部大于line1</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> w = <span class="hljs-number">1</span>; w &lt;= m; w++)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (a[line2][w] &lt;= a[line1][w])<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">find_line</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span><span class="hljs-comment">//返回查找到的上级</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">cmp</span>(x, i))<span class="hljs-keyword">return</span> i;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    cin &gt;&gt; n &gt;&gt; m;<br><br>    <span class="hljs-comment">//数据读入</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)<br>    &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= m; j++)cin &gt;&gt; a[i][j];<br>    &#125;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)<br>    &#123;<br>        cout &lt;&lt; <span class="hljs-built_in">find_line</span>(i) &lt;&lt; endl;<br>        <br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="因子化简">因子化简</h2>
+<p>会欧拉筛基本上就秒了，还有记得数据范围</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> LL;<br><br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N=<span class="hljs-number">1e5</span>+<span class="hljs-number">10</span>;<br><span class="hljs-type">bool</span> not_prime[N];<br><br>vector&lt;<span class="hljs-type">int</span>&gt;prime;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    LL n,k;<br>    LL result=<span class="hljs-number">1</span>,len=prime.<span class="hljs-built_in">size</span>();<br>    cin&gt;&gt;n&gt;&gt;k;<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;prime[i]&lt;=n&amp;&amp;i&lt;len;i++)<br>    &#123;<br>        <span class="hljs-type">int</span> cnt=<span class="hljs-number">0</span>;<span class="hljs-comment">//cnt记录次方数</span><br>        <br>        <span class="hljs-keyword">while</span>(n%prime[i]==<span class="hljs-number">0</span>)<br>        &#123;<br>            cnt++;<br>            n/=prime[i];<br>        &#125; <br>        <span class="hljs-keyword">if</span>(cnt&gt;=k)<br>        &#123;<br>            <span class="hljs-keyword">while</span>(cnt--)result*=prime[i];<br>        &#125;<br>    &#125;<br>    <br>    cout&lt;&lt;result&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;<br>    <br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> q;<br>    <br>    cin&gt;&gt;q;<br>    <br>    <span class="hljs-comment">//首先筛选出小于1e5的所有质数</span><br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">2</span>;i&lt;=N;i++)<br>    &#123;<br>        <span class="hljs-keyword">if</span>(!not_prime[i])prime.<span class="hljs-built_in">push_back</span>(i);<br>        <br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> j:prime)<br>        &#123;<br>            <span class="hljs-keyword">if</span>(j*i&gt;N)<span class="hljs-keyword">break</span>;<br>            not_prime[i*j]=<span class="hljs-literal">true</span>;<br>            <span class="hljs-keyword">if</span>(i%j==<span class="hljs-number">0</span>)<span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br>    <br>    <br>    <span class="hljs-keyword">while</span>(q--)<br>    <span class="hljs-built_in">solve</span>();<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="树上搜索">树上搜索</h2>
+<p>一道考基础知识的题，思路并不复杂，基本功扎实就行,思路请看代码注释（以及尽可能详细了）</p>
+<p>dfs 邻接表 递归</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> LL;<br><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br>vector&lt;LL&gt;temp,wi;<span class="hljs-comment">//wi存储该点即子节点的权重和，temp存储每一点的权值</span><br>vector&lt;vector&lt;<span class="hljs-type">int</span>&gt;&gt;ls;<span class="hljs-comment">//邻接表（建树）</span><br>set&lt;<span class="hljs-type">int</span>&gt;yes,no;<span class="hljs-comment">//yes存储未被删除的点,no标记被删除的点 </span><br><br><span class="hljs-type">int</span> n,m;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> cur)</span><span class="hljs-comment">//初始化yes与wi</span></span><br><span class="hljs-function"></span>&#123;<br>    yes.<span class="hljs-built_in">insert</span>(cur);<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> i:ls[cur])<br>    &#123;<br>        <span class="hljs-keyword">if</span>(no.<span class="hljs-built_in">find</span>(i)!=no.<span class="hljs-built_in">end</span>())<span class="hljs-keyword">continue</span>;<br>        <span class="hljs-built_in">dfs</span>(i);<br>        wi[cur]+=wi[i];<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">get_min</span><span class="hljs-params">(<span class="hljs-type">int</span> cur)</span><span class="hljs-comment">//寻找指定最小值 </span></span><br><span class="hljs-function"></span>&#123;<br>    LL min_data=<span class="hljs-number">1e10</span>;<br>    <span class="hljs-type">int</span> min_idx;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> i:yes)<br>    &#123;<br>        LL data=<span class="hljs-built_in">llabs</span>(wi[cur]-wi[i]*<span class="hljs-number">2</span>);<br>        <span class="hljs-keyword">if</span>(data&lt;min_data)<br>        &#123;<br>            min_idx=i;<br>            min_data=data;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> min_idx;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">check</span><span class="hljs-params">(<span class="hljs-type">int</span> num,<span class="hljs-type">int</span> min_idx)</span><span class="hljs-comment">//检验num是否在min_idx的子树中 </span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span>(min_idx==num)<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> i:ls[min_idx])<br>    &#123;<br>        <span class="hljs-keyword">if</span>(no.<span class="hljs-built_in">find</span>(i)!=no.<span class="hljs-built_in">end</span>())<span class="hljs-keyword">continue</span>;<br>        <span class="hljs-keyword">if</span>(i==num)<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">check</span>(num,i))<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br><br><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-number">0</span>);<br>    cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>    <br>    cin&gt;&gt;n&gt;&gt;m;<br>    <br>    temp.<span class="hljs-built_in">resize</span>(n+<span class="hljs-number">1</span>);<br>    wi.<span class="hljs-built_in">resize</span>(n+<span class="hljs-number">1</span>);<br>    ls.<span class="hljs-built_in">resize</span>(n+<span class="hljs-number">1</span>);<br>    <br>    <span class="hljs-comment">//输入权值 </span><br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)<br>    &#123;<br>        cin&gt;&gt;temp[i];<br>    &#125;<br>    <br>    <span class="hljs-comment">//建树</span><br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">2</span>;i&lt;=n;i++)<br>    &#123;<br>        <span class="hljs-type">int</span> fa;<br>        cin&gt;&gt;fa;<br>        ls[fa].<span class="hljs-built_in">push_back</span>(i);<br>    &#125;<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=m;i++)<br>    &#123;<br>        no.<span class="hljs-built_in">clear</span>();<br>        <span class="hljs-type">int</span> num,cur=<span class="hljs-number">1</span>;<span class="hljs-comment">//num为要处理的编号 </span><br>        cin&gt;&gt;num;<br>        <br>        <span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>)<br>        &#123;<br>            yes.<span class="hljs-built_in">clear</span>();<br>            wi=temp;<br>            <br>            <span class="hljs-built_in">dfs</span>(cur);<span class="hljs-comment">//初始化wi与yes</span><br>            <br>            <span class="hljs-keyword">if</span>(yes.<span class="hljs-built_in">size</span>()==<span class="hljs-number">1</span>)<span class="hljs-keyword">break</span>;<span class="hljs-comment">//当只剩一个元素时查找成功 </span><br>            <br>            <span class="hljs-type">int</span> min_idx=<span class="hljs-built_in">get_min</span>(cur);<span class="hljs-comment">//查找指定点 </span><br>            <br>            <span class="hljs-keyword">if</span>(<span class="hljs-built_in">check</span>(num,min_idx))cur=min_idx;<span class="hljs-comment">//判断所要查找的num是否在min_idx的子树中 </span><br>            <span class="hljs-keyword">else</span> no.<span class="hljs-built_in">insert</span>(min_idx);<br>            <br>            cout&lt;&lt;min_idx&lt;&lt;<span class="hljs-string">&#x27; &#x27;</span>;<br>        &#125;<br>        cout&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;<br>    &#125;<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+        <tag>csp</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>第33次csp认证题解</title>
     <url>/2024/05/09/%E7%AC%AC33%E6%AC%A1CCF%E8%AE%A4%E8%AF%81%E9%A2%98%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="1-词频统计">1.词频统计</h2>
@@ -465,22 +495,30 @@
       </tags>
   </entry>
   <entry>
-    <title>高精度算法</title>
-    <url>/2024/05/01/%E9%AB%98%E7%B2%BE%E5%BA%A6%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>结构体运算符重定向</title>
+    <title>一些小tricks</title>
     <url>/2024/05/09/%E7%BB%93%E6%9E%84%E4%BD%93%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E5%AE%9A%E5%90%91/</url>
-    <content><![CDATA[<h4 id="举个例子">举个例子</h4>
+    <content><![CDATA[<h2 id="结构体运算重定向">结构体运算重定向</h2>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">node</span> &#123;<br>	<span class="hljs-type">int</span> x, w;<br>	<span class="hljs-type">bool</span> <span class="hljs-keyword">operator</span> &lt; (<span class="hljs-type">const</span> node&amp; a)<span class="hljs-type">const</span> &#123;<br>		<span class="hljs-keyword">return</span> x &lt; a.x;<br>	&#125;<br>	<span class="hljs-type">bool</span> <span class="hljs-keyword">operator</span> == (<span class="hljs-type">const</span> node&amp; a)<span class="hljs-type">const</span> &#123;<br>		<span class="hljs-keyword">return</span> x == a.x &amp;&amp; w == a.w;<br>	&#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 <p>上式重定向了小于和等于运算符</p>
-]]></content>
+<h2 id="筛选素数">筛选素数</h2>
+<h3 id="埃式筛">埃式筛</h3>
+<p>时间复杂度：nlog(n)</p>
+<p>埃式筛就是筛选n以内的素数，从小到大，对每个素数的倍数进行剔除，最后保留下来的就是素数</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N=<span class="hljs-number">1e6</span>+<span class="hljs-number">10</span>;<br><br><span class="hljs-type">bool</span> not_prime[N];<br><br>vector&lt;<span class="hljs-type">int</span>&gt;prime;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> n;<br>    cin&gt;&gt;n;<span class="hljs-comment">//所要筛选的素数的范围</span><br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">2</span>;i*i&lt;=n;i++)<br>    &#123;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=i*i;j&lt;=n;j+=i)not_prime[j]=<span class="hljs-literal">true</span>;<br>    &#125;<br>    <br>       <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">2</span>;i&lt;=n;i++)<br>       <span class="hljs-keyword">if</span>(!not_prime[i])prime.<span class="hljs-built_in">push_back</span>(i);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="欧拉筛">欧拉筛</h3>
+<p>时间复杂度： O(n)</p>
+<p>算法思路：每个合数都由其最小质因子筛选出来，这样能够保证筛选的线性，每个合数只被筛选一次</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N=<span class="hljs-number">1e6</span>+<span class="hljs-number">10</span>;<br><br><span class="hljs-type">bool</span> not_prime[N];<br><br>vector&lt;<span class="hljs-type">int</span>&gt;prime;<br><br><span class="hljs-type">int</span> n;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    cin&gt;&gt;n;<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">2</span>;i&lt;=n;i++)<br>    &#123;<br>        <span class="hljs-keyword">if</span>(!not_prime[i])prime.<span class="hljs-built_in">push_back</span>(i);<br>        <br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> j:prime)<br>        &#123;<br>            <span class="hljs-keyword">if</span>(j*i&gt;n)<span class="hljs-keyword">break</span>;<span class="hljs-comment">//这一步不能遗忘</span><br>            not_prime[j*i]=<span class="hljs-literal">true</span>;<span class="hljs-comment">//这时满足j为j*i的最小质因子</span><br>            <br>            <span class="hljs-keyword">if</span>(i%j==<span class="hljs-number">0</span>)<span class="hljs-keyword">break</span>;<span class="hljs-comment">//当j为i的最小质因子时，若继续向后遍历质数，则那时的j*i不满足以j为最小质因子，会造成重复筛选(虽然对结果没影响）</span><br>        &#125;<br>        <br>    &#125;<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>学习</category>
       </categories>
       <tags>
         <tag>算法</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>高精度算法</title>
+    <url>/2024/05/01/%E9%AB%98%E7%B2%BE%E5%BA%A6%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[]]></content>
   </entry>
 </search>
